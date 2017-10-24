@@ -10,21 +10,26 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { Switch, Route } from 'react-router-dom';
 
 import {
-  Container, Segment, Header,
-  Input, Label, List, Button, Icon, Loader, Dimmer, Image, Divider,
+  Segment, Header,
+  Input, Label, List, Button, Icon, Divider,
 } from 'semantic-ui-react';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import map from 'images/map.jpg';
+import GPSLocation from './Steps/GPSLocation/Loadable';
 import makeSelectSurvey from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 
-export class Survey extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class Survey extends React.PureComponent {
+  componentWillReceiveProps() {
+
+  }
+
   render() {
     return (
       <div>
@@ -32,15 +37,11 @@ export class Survey extends React.Component { // eslint-disable-line react/prefe
           <title>Survey</title>
           <meta name="description" content="GIZ Survey" />
         </Helmet>
-        <Container>
-          <MessageGeoLocalisation />
-          <Divider horizontal>then</Divider>
-          <ListExampleFloated />
-          <Divider horizontal>Saving</Divider>
-          <ListExampleFloatedLoading />
-          <Divider horizontal>finally</Divider>
-          <StepLayoutPrice />
-        </Container>
+        <Switch>
+          {steps.map((step) =>
+            <Route key={step.type} path={`/${step.type}`} component={step.component} />
+          )}
+        </Switch>
 
       </div>
     );
@@ -159,47 +160,9 @@ const ListExampleFloated = () => (
   </Segment>
 );
 
-const ListExampleFloatedLoading = () => (
-  <Segment>
-    <Dimmer active>
-      <Loader indeterminate size="big">Saving</Loader>
-    </Dimmer>
-    <Header>
-      <Icon name="map signs" />Select an island
-    </Header>
-    <Input fluid placeholder="Search the name of the island" icon="search" />
-    <Divider />
-    <Input fluid loading placeholder="Search the name of the island" />
-    <List divided verticalAlign="middle">
-      <List.Item>
-        <List.Content>
-          <Button fluid>Ko chang</Button>
-        </List.Content>
-      </List.Item>
-      <List.Item>
-        <List.Content>
-          <Button fluid>Ko noi</Button>
-        </List.Content>
-      </List.Item>
-      <List.Item>
-        <List.Content>
-          <Button fluid>Ko noi noi</Button>
-        </List.Content>
-      </List.Item>
-      <List.Item>
-        <List.Content>
-          <Button fluid>Ko noi mak</Button>
-        </List.Content>
-      </List.Item>
-    </List>
-  </Segment>
-);
-
-const MessageGeoLocalisation = () => (
-  <Segment>
-    <Dimmer active>
-      <Loader indeterminate size="big">Finding your location</Loader>
-    </Dimmer>
-    <Image src={map} size="large" />
-  </Segment>
-);
+const steps = [
+  { type: 'gps', component: GPSLocation },
+  { type: 'island', component: ListExampleFloated },
+  { type: 'price', component: StepLayoutPrice },
+  { type: 'social', component: StepLayoutPrice },
+];
