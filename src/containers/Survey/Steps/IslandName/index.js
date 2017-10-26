@@ -25,7 +25,7 @@ class IslandName extends Component {
   }
 
   render() {
-    const { onComplete, type, label } = this.props;
+    const { onComplete, questionType, label } = this.props;
     const { search, filteredIslands } = this.state;
     return (
       <Segment className="center aligned">
@@ -38,7 +38,7 @@ class IslandName extends Component {
             {filteredIslands.map((island) => (
               <List.Item key={island.english}>
                 <List.Content>
-                  <Button fluid onClick={() => onComplete(type, island.english)}>{island.thai} {island.thai ? '/' : null} {island.english}</Button>
+                  <Button fluid onClick={() => onComplete(questionType, island.english)}>{island.thai} {island.thai ? '/' : null} {island.english}</Button>
                 </List.Content>
               </List.Item>
             ))
@@ -46,7 +46,7 @@ class IslandName extends Component {
             {search.length > 2 ?
               <List.Item key={search}>
                 <List.Content>
-                  <Button fluid onClick={() => onComplete(type, search)}>{search}</Button>
+                  <Button fluid onClick={() => onComplete(questionType, search)}>{search}</Button>
                 </List.Content>
               </List.Item>
             : null}
@@ -59,7 +59,7 @@ class IslandName extends Component {
 
 IslandName.propTypes = {
   onComplete: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  questionType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
 

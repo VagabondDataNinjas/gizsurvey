@@ -8,12 +8,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { createStructuredSelector } from 'reselect';
+import { createSelector } from 'reselect';
 import { compose } from 'redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
+import queryString from 'query-string';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import PropsRoute from 'components/PropsRoute';
 import GPSLocation from './Steps/GPSLocation/Loadable';
 import SocialPosition from './Steps/SocialPosition/Loadable';
 import Price from './Steps/Price/Loadable';
@@ -21,45 +23,64 @@ import LineID from './Steps/LineID/Loadable';
 import IslandName from './Steps/IslandName/Loadable';
 import End from './Steps/End/Loadable';
 
-import makeSelectSurvey from './selectors';
+import {
+  loadQuestions,
+  submitAnswer,
+  setUserId,
+} from './actions';
+import { selectSurveyUserId } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
+const steps = [
+  { questionType: 'job', component: SocialPosition },
+  { questionType: 'lineid', component: LineID },
+  { questionType: 'gps', component: GPSLocation, label: 'Finding your location' },
+  { questionType: 'island', component: IslandName },
+  { questionType: 'price', component: Price },
+  { questionType: 'thank_you', component: End },
+];
 
 class Survey extends React.PureComponent {
   constructor() {
     super();
     this.handleOnComplete = this.handleOnComplete.bind(this);
     this.state = {
-      currentStep: steps[0].type,
+      currentStep: steps[0].questionType,
     };
   }
 
   componentWillMount() {
-    // @todo call endpoint
+    const { location, dispatchLoadQuestions, dispatchSetUserId } = this.props;
+    const query = queryString.parse(location.search);
+    dispatchSetUserId(query.uid ? query.uid : '');
+    dispatchLoadQuestions();
   }
 
-  getNextStep(type) {
+  getNextStep(questionType) {
     let nextStep = null;
     steps.forEach((step, i) => {
-      if (step.type === type) {
-        nextStep = steps[i + 1].type;
+      if (step.questionType === questionType) {
+        nextStep = steps[i + 1].questionType;
       }
     });
     return nextStep;
   }
 
-  handleOnComplete(type, answer) {
-    // @todo call endpoint
-    console.log(answer);
-    const nextStep = this.getNextStep(type);
+  handleOnComplete(questionType, answer) {
+    const { onSubmitAnswer } = this.props;
+    onSubmitAnswer(questionType, answer);
+    const nextStep = this.getNextStep(questionType);
     this.setState({
       currentStep: nextStep,
     });
   }
 
   render() {
-    const { location: { pathname } } = this.props;
+    const { userId, location: { pathname } } = this.props;
+    if (!userId.length) {
+      return null;
+    }
     const { currentStep } = this.state;
     if (pathname !== `/${currentStep}`) {
       return <Redirect to={`/${currentStep}`} />;
@@ -72,7 +93,7 @@ class Survey extends React.PureComponent {
         </Helmet>
         <Switch>
           {steps.map((step) =>
-            <PropsRoute key={step.type} path={`/${step.type}`} component={step.component} type={step.type} onComplete={this.handleOnComplete} label={stepsData[step.type] ? stepsData[step.type].text : step.label} />
+            <PropsRoute key={step.questionType} path={`/${step.questionType}`} component={step.component} questionType={step.questionType} onComplete={this.handleOnComplete} label={stepsData[step.questionType] ? stepsData[step.questionType].text : step.label} />
           )}
         </Switch>
       </div>
@@ -82,19 +103,24 @@ class Survey extends React.PureComponent {
 
 Survey.propTypes = {
   location: PropTypes.object.isRequired,
+  onSubmitAnswer: PropTypes.func.isRequired,
+  dispatchLoadQuestions: PropTypes.func.isRequired,
+  dispatchSetUserId: PropTypes.func.isRequired,
+  userId: PropTypes.string,
 };
 
-const mapStateToProps = createStructuredSelector({
-  survey: makeSelectSurvey(),
+const mapStateToProps = createSelector(
+  selectSurveyUserId(),
+  (userId) => ({
+    userId,
+  })
+);
+
+const withConnect = connect(mapStateToProps, {
+  onSubmitAnswer: submitAnswer,
+  dispatchLoadQuestions: loadQuestions,
+  dispatchSetUserId: setUserId,
 });
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
 const withReducer = injectReducer({ key: 'survey', reducer });
 const withSaga = injectSaga({ key: 'survey', saga });
 
@@ -103,34 +129,6 @@ export default compose(
   withSaga,
   withConnect,
 )(Survey);
-
-
-const renderMergedProps = (component, ...rest) => {
-  const finalProps = Object.assign({}, ...rest);
-  return (
-    React.createElement(component, finalProps)
-  );
-};
-const PropsRoute = ({ component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(routeProps) => renderMergedProps(component, routeProps, rest)}
-  />
-);
-PropsRoute.propTypes = {
-  component: PropTypes.func.isRequired,
-};
-
-
-const steps = [
-  { type: 'job', component: SocialPosition },
-  { type: 'lineid', component: LineID },
-  { type: 'gps', component: GPSLocation, label: 'Finding your location' },
-  { type: 'island', component: IslandName },
-  { type: 'price', component: Price },
-  { type: 'thank_you', component: End },
-];
-
 
 const stepsData = {
   job: {

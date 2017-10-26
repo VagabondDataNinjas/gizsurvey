@@ -5,21 +5,11 @@ import { createSelector } from 'reselect';
  */
 const selectSurveyDomain = (state) => state.get('survey');
 
-/**
- * Other specific selectors
- */
-
-
-/**
- * Default selector used by Survey
- */
-
-const makeSelectSurvey = () => createSelector(
+const selectSurveyUserId = () => createSelector(
   selectSurveyDomain,
-  (substate) => substate.toJS()
+  (substate) => substate.get('userId')
 );
 
-export default makeSelectSurvey;
 export {
-  selectSurveyDomain,
+  selectSurveyUserId,
 };

@@ -21,14 +21,14 @@ class LineID extends Component {
   }
 
   render() {
-    const { onComplete, type, label } = this.props;
+    const { onComplete, questionType, label } = this.props;
     const { lineID } = this.state;
     return (
       <Segment className="center aligned">
         <Header>{label}</Header>
         <Input type="text" placeholder="line ID" value={lineID} onChange={this.handleOnChange} />
         <Divider />
-        <Button disabled={lineID.length < 2} onClick={() => onComplete(type, lineID)} positive fluid>Submit</Button>
+        <Button disabled={lineID.length < 2} onClick={() => onComplete(questionType, lineID)} positive fluid>Submit</Button>
       </Segment>
     );
   }
@@ -36,7 +36,7 @@ class LineID extends Component {
 
 LineID.propTypes = {
   onComplete: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  questionType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
 

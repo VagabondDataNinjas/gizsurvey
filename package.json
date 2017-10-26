@@ -83,7 +83,9 @@
     "settings": {
       "import/resolver": {
         "node": {
-          "paths": ["src"]
+          "paths": [
+            "src"
+          ]
         }
       }
     }
@@ -98,6 +100,7 @@
     "immutable": "3.8.1",
     "invariant": "2.2.2",
     "lodash": "4.17.4",
+    "query-string": "^5.0.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-helmet": "5.1.3",

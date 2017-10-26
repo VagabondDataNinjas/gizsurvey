@@ -7,7 +7,7 @@ import {
 
 class SocialPosition extends PureComponent {
   render() {
-    const { onComplete, type, label } = this.props;
+    const { onComplete, questionType, label } = this.props;
     return (
       <Segment>
         <Header>
@@ -17,17 +17,17 @@ class SocialPosition extends PureComponent {
           <List divided verticalAlign="middle">
             <List.Item>
               <List.Content>
-                <Button onClick={() => onComplete(type, 'community leader')} fluid>community leader</Button>
+                <Button onClick={() => onComplete(questionType, 'community leader')} fluid>community leader</Button>
               </List.Content>
             </List.Item>
             <List.Item>
               <List.Content>
-                <Button onClick={() => onComplete(type, 'shop owner')} fluid>shop owner</Button>
+                <Button onClick={() => onComplete(questionType, 'shop owner')} fluid>shop owner</Button>
               </List.Content>
             </List.Item>
             <List.Item>
               <List.Content>
-                <Button onClick={() => onComplete(type, 'villager')} fluid>villager</Button>
+                <Button onClick={() => onComplete(questionType, 'villager')} fluid>villager</Button>
               </List.Content>
             </List.Item>
           </List>
@@ -39,7 +39,7 @@ class SocialPosition extends PureComponent {
 
 SocialPosition.propTypes = {
   onComplete: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  questionType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
 

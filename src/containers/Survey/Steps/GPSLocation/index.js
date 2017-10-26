@@ -11,10 +11,10 @@ class Geolocation extends Component {
     if (navigator.geolocation) {
       getGeolocation()
       .then((pos) => {
-        this.props.onComplete(this.props.type, pos);
+        this.props.onComplete(this.props.questionType, pos);
       })
       .catch((err) => {
-        this.props.onComplete(this.props.type, err);
+        this.props.onComplete(this.props.questionType, err);
       });
     }
   }
@@ -33,7 +33,7 @@ class Geolocation extends Component {
 
 Geolocation.propTypes = {
   onComplete: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  questionType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
 

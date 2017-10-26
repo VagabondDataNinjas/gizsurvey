@@ -21,7 +21,7 @@ class Price extends Component {
   }
 
   render() {
-    const { onComplete, type, label } = this.props;
+    const { onComplete, questionType, label } = this.props;
     const { price } = this.state;
     return (
       <Segment className="center aligned">
@@ -32,7 +32,7 @@ class Price extends Component {
           <Label> / liter</Label>
         </Input>
         <Divider />
-        <Button disabled={price.length < 2} onClick={() => onComplete(type, price)} positive fluid>Submit</Button>
+        <Button disabled={price.length < 2} onClick={() => onComplete(questionType, price)} positive fluid>Submit</Button>
       </Segment>
     );
   }
@@ -40,7 +40,7 @@ class Price extends Component {
 
 Price.propTypes = {
   onComplete: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  questionType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
 };
 
