@@ -26,16 +26,17 @@ import End from './Steps/End/Loadable';
 import {
   loadQuestions,
   submitAnswer,
+  submitGPS,
   setUserId,
 } from './actions';
-import { selectSurveyUserId } from './selectors';
+import { selectSurveyQuestions } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
 const steps = [
   { questionType: 'job', component: SocialPosition },
   { questionType: 'lineid', component: LineID },
-  { questionType: 'gps', component: GPSLocation, label: 'Finding your location' },
+  { questionType: 'gps', component: GPSLocation },
   { questionType: 'island', component: IslandName },
   { questionType: 'price', component: Price },
   { questionType: 'thank_you', component: End },
@@ -68,8 +69,14 @@ class Survey extends React.PureComponent {
   }
 
   handleOnComplete(questionType, answer) {
-    const { onSubmitAnswer } = this.props;
-    onSubmitAnswer(questionType, answer);
+    const { onSubmitAnswer, onSubmitGPS } = this.props;
+    if (questionType === 'gps') {
+      if (answer.coords) {
+        onSubmitGPS(answer.coords);
+      }
+    } else {
+      onSubmitAnswer(questionType, answer);
+    }
     const nextStep = this.getNextStep(questionType);
     this.setState({
       currentStep: nextStep,
@@ -77,13 +84,13 @@ class Survey extends React.PureComponent {
   }
 
   render() {
-    const { userId, location: { pathname } } = this.props;
-    if (!userId.length) {
-      return null;
-    }
+    const { questions, location: { pathname } } = this.props;
     const { currentStep } = this.state;
     if (pathname !== `/${currentStep}`) {
       return <Redirect to={`/${currentStep}`} />;
+    }
+    if (!questions[currentStep]) {
+      return null;
     }
     return (
       <div>
@@ -93,7 +100,7 @@ class Survey extends React.PureComponent {
         </Helmet>
         <Switch>
           {steps.map((step) =>
-            <PropsRoute key={step.questionType} path={`/${step.questionType}`} component={step.component} questionType={step.questionType} onComplete={this.handleOnComplete} label={stepsData[step.questionType] ? stepsData[step.questionType].text : step.label} />
+            <PropsRoute key={step.questionType} path={`/${step.questionType}`} component={step.component} questionType={step.questionType} onComplete={this.handleOnComplete} label={questions[step.questionType] ? questions[step.questionType].text : step.label} />
           )}
         </Switch>
       </div>
@@ -104,15 +111,16 @@ class Survey extends React.PureComponent {
 Survey.propTypes = {
   location: PropTypes.object.isRequired,
   onSubmitAnswer: PropTypes.func.isRequired,
+  onSubmitGPS: PropTypes.func.isRequired,
   dispatchLoadQuestions: PropTypes.func.isRequired,
   dispatchSetUserId: PropTypes.func.isRequired,
-  userId: PropTypes.string,
+  questions: PropTypes.object,
 };
 
 const mapStateToProps = createSelector(
-  selectSurveyUserId(),
-  (userId) => ({
-    userId,
+  selectSurveyQuestions(),
+  (questions) => ({
+    questions,
   })
 );
 
@@ -120,6 +128,7 @@ const withConnect = connect(mapStateToProps, {
   onSubmitAnswer: submitAnswer,
   dispatchLoadQuestions: loadQuestions,
   dispatchSetUserId: setUserId,
+  onSubmitGPS: submitGPS,
 });
 const withReducer = injectReducer({ key: 'survey', reducer });
 const withSaga = injectSaga({ key: 'survey', saga });
@@ -129,26 +138,3 @@ export default compose(
   withSaga,
   withConnect,
 )(Survey);
-
-const stepsData = {
-  job: {
-    text: 'What is your occupation?',
-    weight: '-7',
-  },
-  lineid: {
-    text: 'What is your line id?',
-    weight: '-6',
-  },
-  price: {
-    text: 'How much do you pay for diesel in your area?',
-    weight: '-9',
-  },
-  thank_you: {
-    text: 'Thank you for all your help! We might ask you more questions in the future',
-    weight: '-5',
-  },
-  welcome: {
-    text: 'Thank you for following us!\nIf you\'d like to complete the survey online please go to https://google.com\nOtherwise you can complete the form here.\nYou can start by replying back with your location (area or island name)',
-    weight: '-10',
-  },
-};

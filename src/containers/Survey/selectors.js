@@ -10,6 +10,12 @@ const selectSurveyUserId = () => createSelector(
   (substate) => substate.get('userId')
 );
 
+const selectSurveyQuestions = () => createSelector(
+  selectSurveyDomain,
+  (substate) => substate.get('questions').toJS()
+);
+
 export {
   selectSurveyUserId,
+  selectSurveyQuestions,
 };

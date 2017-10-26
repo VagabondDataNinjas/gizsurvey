@@ -1,15 +1,20 @@
-import { takeEvery, call, all, select } from 'redux-saga/effects';
+import { takeEvery, call, all, select, put } from 'redux-saga/effects';
 import request from 'utils/request';
 import {
   SUBMIT_ANSWER,
+  SUBMIT_GPS,
   LOAD_QUESTIONS,
 } from './constants';
+import {
+  setQuestionsData,
+} from './actions';
 import { selectSurveyUserId } from './selectors';
 
 export default function* mainSaga() {
   yield all([
     takeEvery(LOAD_QUESTIONS, loadQuestions),
     takeEvery(SUBMIT_ANSWER, submitAnswer),
+    takeEvery(SUBMIT_GPS, submitGPS),
   ]);
 }
 
@@ -33,11 +38,30 @@ function* submitAnswer({ questionType, answer }) {
   });
 }
 
+function* submitGPS({ gps }) {
+  const userId = yield select(selectSurveyUserId());
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  const payload = {
+    user_id: userId,
+    location: {
+      lat: gps.latitude,
+      lon: gps.longitude,
+    },
+  };
+  yield call(request, 'http://localhost:8888/api/webform/answer-gps', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload),
+  });
+}
+
 function* loadQuestions() {
   const headers = new Headers();
   headers.append('Accept', 'application/json');
-  yield call(request, 'http://localhost:8888/api/webform/questions', {
+  const questions = yield call(request, 'http://localhost:8888/api/webform/questions', {
     method: 'GET',
     headers,
   });
+  yield put(setQuestionsData(questions));
 }
