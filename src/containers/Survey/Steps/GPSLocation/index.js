@@ -11,19 +11,20 @@ class Geolocation extends Component {
     if (navigator.geolocation) {
       getGeolocation()
       .then((pos) => {
-        this.props.onComplete(pos);
+        this.props.onComplete(this.props.type, pos);
       })
       .catch((err) => {
-        this.props.onError(err);
+        this.props.onComplete(this.props.type, err);
       });
     }
   }
 
   render() {
+    const { label } = this.props;
     return (
-      <Segment>
+      <Segment style={{ height: '100vh' }}>
         <Dimmer active>
-          <Loader indeterminate size="big">Finding your location</Loader>
+          <Loader indeterminate size="big">{label}</Loader>
         </Dimmer>
       </Segment>
     );
@@ -32,7 +33,8 @@ class Geolocation extends Component {
 
 Geolocation.propTypes = {
   onComplete: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default Geolocation;
