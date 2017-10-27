@@ -31,7 +31,7 @@ function* submitAnswer({ questionType, answer }) {
       },
     ],
   };
-  yield call(request, 'http://localhost:8888/api/webform/answer', {
+  yield call(request, '/api/webform/answer', {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),
@@ -49,7 +49,7 @@ function* submitGPS({ gps }) {
       lon: gps.longitude,
     },
   };
-  yield call(request, 'http://localhost:8888/api/webform/answer-gps', {
+  yield call(request, '/api/webform/answer-gps', {
     method: 'POST',
     headers,
     body: JSON.stringify(payload),
@@ -59,7 +59,7 @@ function* submitGPS({ gps }) {
 function* loadQuestions() {
   const headers = new Headers();
   headers.append('Accept', 'application/json');
-  const questions = yield call(request, 'http://localhost:8888/api/webform/questions', {
+  const questions = yield call(request, '/api/webform/questions', {
     method: 'GET',
     headers,
   });
