@@ -118,6 +118,7 @@ Survey.propTypes = {
   dispatchLoadIslands: PropTypes.func.isRequired,
   dispatchSetUserId: PropTypes.func.isRequired,
   questions: PropTypes.object,
+  islands: PropTypes.array,
 };
 
 const mapStateToProps = createSelector(

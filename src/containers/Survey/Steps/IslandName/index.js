@@ -6,12 +6,12 @@ import {
 } from 'semantic-ui-react';
 
 class IslandName extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.state = {
       search: '',
-      filteredIslands: this.props.islands,
+      filteredIslands: props.islands,
     };
   }
 
