@@ -7,9 +7,11 @@
 import {
   SUBMIT_ANSWER,
   SUBMIT_GPS,
-  LOAD_QUESTIONS,
   SET_USER_ID,
+  LOAD_QUESTIONS,
   SET_QUESTIONS_DATA,
+  LOAD_ISLANDS,
+  SET_ISLANDS_DATA,
 } from './constants';
 
 export function submitAnswer(questionType, answer) {
@@ -34,6 +36,13 @@ export function setQuestionsData(data) {
   };
 }
 
+export function setIslandsData(data) {
+  return {
+    type: SET_ISLANDS_DATA,
+    data,
+  };
+}
+
 export function setUserId(userId) {
   return {
     type: SET_USER_ID,
@@ -41,10 +50,15 @@ export function setUserId(userId) {
   };
 }
 
-
 export function loadQuestions() {
   return {
     type: LOAD_QUESTIONS,
+  };
+}
+
+export function loadIslands() {
+  return {
+    type: LOAD_ISLANDS,
   };
 }
 

@@ -4,15 +4,18 @@ import {
   SUBMIT_ANSWER,
   SUBMIT_GPS,
   LOAD_QUESTIONS,
+  LOAD_ISLANDS,
 } from './constants';
 import {
   setQuestionsData,
+  setIslandsData,
 } from './actions';
 import { selectSurveyUserId } from './selectors';
 
 export default function* mainSaga() {
   yield all([
     takeEvery(LOAD_QUESTIONS, loadQuestions),
+    takeEvery(LOAD_ISLANDS, loadIslands),
     takeEvery(SUBMIT_ANSWER, submitAnswer),
     takeEvery(SUBMIT_GPS, submitGPS),
   ]);
@@ -65,3 +68,14 @@ function* loadQuestions() {
   });
   yield put(setQuestionsData(questions));
 }
+
+function* loadIslands() {
+  const headers = new Headers();
+  headers.append('Accept', 'application/json');
+  const islands = yield call(request, '/api/islands', {
+    method: 'GET',
+    headers,
+  });
+  yield put(setIslandsData(islands));
+}
+

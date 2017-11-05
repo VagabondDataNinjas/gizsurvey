@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import islands from 'utils/islands';
 
 import {
   Segment, Header, Input, Button, List, Icon,
@@ -12,12 +11,12 @@ class IslandName extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.state = {
       search: '',
-      filteredIslands: islands,
+      filteredIslands: this.props.islands,
     };
   }
 
   handleOnChange({ currentTarget: { value } }) {
-    const filteredIslands = islands.filter((island) => island.english.toLowerCase().includes(value.toLowerCase()) || island.thai.toLowerCase().includes(value.toLowerCase()));
+    const filteredIslands = this.props.islands.filter((island) => island.english.toLowerCase().includes(value.toLowerCase()) || island.thai.toLowerCase().includes(value.toLowerCase()));
     this.setState({
       search: value,
       filteredIslands,
@@ -61,6 +60,7 @@ IslandName.propTypes = {
   onComplete: PropTypes.func.isRequired,
   questionType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  islands: PropTypes.object.isRequired,
 };
 
 export default IslandName;
