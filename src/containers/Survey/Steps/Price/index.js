@@ -26,13 +26,13 @@ class Price extends Component {
     return (
       <Segment className="center aligned">
         <Header>{label}</Header>
-        <Input labelPosition="right" type="number" placeholder="Amount" value={price} onChange={this.handleOnChange}>
-          <Label basic>฿</Label>
+        <Input labelPosition="right" type="number" placeholder="ราคา" value={price} onChange={this.handleOnChange}>
+          <Label basic>บาท</Label>
           <input />
-          <Label> / liter</Label>
+          <Label> /ลิตร</Label>
         </Input>
         <Divider />
-        <Button disabled={price.length < 2} onClick={() => onComplete(questionType, price)} positive fluid>Submit</Button>
+        <Button disabled={price.length < 2} onClick={() => onComplete(questionType, price)} positive fluid>ส่ง</Button>
       </Segment>
     );
   }

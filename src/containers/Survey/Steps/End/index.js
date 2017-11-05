@@ -9,7 +9,7 @@ const End = ({ label }) => (
   <Segment style={{ height: '100vh' }} className="center aligned">
     <Header>
       {label}
-      <Button href="https://line.me/R/ti/p/%40npx1579f">Click here to finish</Button>
+      <Button href="https://line.me/R/ti/p/%40npx1579f">กลับไปหน้าแชท</Button>
     </Header>
   </Segment>
 );

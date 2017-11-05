@@ -97,8 +97,8 @@ class Survey extends React.PureComponent {
     return (
       <div>
         <Helmet>
-          <title>GIZ Survey</title>
-          <meta name="description" content="GIZ Survey" />
+          <title>กรู๊ดส์ survey</title>
+          <meta name="description" content="กรู๊ดส์ survey" />
         </Helmet>
         <Switch>
           {steps.map((step) =>

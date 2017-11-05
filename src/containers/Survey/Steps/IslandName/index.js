@@ -31,7 +31,7 @@ class IslandName extends Component {
         <Header>
           <Icon name="map signs" />{label}
         </Header>
-        <Input fluid placeholder="Search the name of the island" icon="search" onChange={this.handleOnChange} value={search} />
+        <Input fluid placeholder="พิมพ์ชื่อเกาะในช่องนี้" icon="search" onChange={this.handleOnChange} value={search} />
         <Segment style={{ maxHeight: '80vh', overflowY: 'scroll' }}>
           <List divided verticalAlign="middle">
             {filteredIslands.map((island) => (
