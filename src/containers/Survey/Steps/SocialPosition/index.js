@@ -27,6 +27,11 @@ class SocialPosition extends PureComponent {
             </List.Item>
             <List.Item>
               <List.Content>
+                <Button onClick={() => onComplete(questionType, 'diesel distributor')} fluid>diesel distributor</Button>
+              </List.Content>
+            </List.Item>
+            <List.Item>
+              <List.Content>
                 <Button onClick={() => onComplete(questionType, 'villager')} fluid>villager</Button>
               </List.Content>
             </List.Item>

@@ -19,7 +19,7 @@ import PropsRoute from 'components/PropsRoute';
 import GPSLocation from './Steps/GPSLocation/Loadable';
 import SocialPosition from './Steps/SocialPosition/Loadable';
 import Price from './Steps/Price/Loadable';
-import LineID from './Steps/LineID/Loadable';
+// import LineID from './Steps/LineID/Loadable';
 import IslandName from './Steps/IslandName/Loadable';
 import End from './Steps/End/Loadable';
 
@@ -35,7 +35,6 @@ import saga from './saga';
 
 const steps = [
   { questionType: 'job', component: SocialPosition },
-  { questionType: 'lineid', component: LineID },
   { questionType: 'gps', component: GPSLocation },
   { questionType: 'island', component: IslandName },
   { questionType: 'price', component: Price },
@@ -95,7 +94,7 @@ class Survey extends React.PureComponent {
     return (
       <div>
         <Helmet>
-          <title>Survey</title>
+          <title>GIZ Survey</title>
           <meta name="description" content="GIZ Survey" />
         </Helmet>
         <Switch>
