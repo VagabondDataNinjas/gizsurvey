@@ -5,11 +5,11 @@ import {
   Segment, Header, Button,
 } from 'semantic-ui-react';
 
-const End = ({ label }) => (
+const End = () => (
   <Segment style={{ height: '100vh' }} className="center aligned">
     <Header>
-      {label}
-      <Button href="https://line.me/R/ti/p/%40npx1579f">กลับไปหน้าแชท</Button>
+      <p>ขอบคุณที่ส่งข้อมูลให้เรา</p>
+      <Button href="https://line.me/R/ti/p/%40npx1579f">เช็คราคาจากเกาะใกล้เคียง</Button>
     </Header>
   </Segment>
 );
