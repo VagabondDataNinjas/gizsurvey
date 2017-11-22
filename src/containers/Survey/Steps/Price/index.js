@@ -26,7 +26,7 @@ class Price extends Component {
     return (
       <Segment className="center aligned">
         <Header>{label}</Header>
-        <Input labelPosition="right" type="number" placeholder="ราคา" value={price} onChange={this.handleOnChange}>
+        <Input labelPosition="right" type="number" placeholder="แตะที่นี่เพื่อพิมพ์ราคา" value={price} onChange={this.handleOnChange}>
           <Label basic>บาท</Label>
           <input />
           <Label> /ลิตร</Label>
