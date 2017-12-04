@@ -7,10 +7,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-import 'semantic-ui-css/semantic.min.css';
 
 // Import root app
 import App from 'containers/App';
+import 'semantic-ui-css/semantic.min.css';
+import './index.css';
 
 import configureStore from './configureStore';
 import registerServiceWorker from './registerServiceWorker';

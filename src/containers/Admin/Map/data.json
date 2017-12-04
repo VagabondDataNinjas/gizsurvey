@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "name": "Ko Chang",
+    "latitude": 12.06,
+    "longitude": 102.33,
+    "price": 29.32
+  },
+  {
+    "id": 2,
+    "name": "Ko Kut",
+    "latitude": 11.66,
+    "longitude": 102.57,
+    "price": 28.33
+  },
+  {
+    "id": 4,
+    "name": "Ko Mak",
+    "latitude": 11.819,
+    "longitude": 102.48,
+    "price": 31
+  },
+  {
+    "id": 7,
+    "name": "Ko Phi Phi Don",
+    "latitude": 7.741,
+    "longitude": 98.78,
+    "price": 30.5
+  },
+  {
+    "id": 9,
+    "name": "Ko Samet",
+    "latitude": 12.565,
+    "longitude": 101.45,
+    "price": 28.51
+  },
+  {
+    "id": 10,
+    "name": "Ko Samui",
+    "latitude": 9.5,
+    "longitude": 100,
+    "price": 29
+  },
+  {
+    "id": 11,
+    "name": "Ko Tao",
+    "latitude": 10.09,
+    "longitude": 99.838,
+    "price": 44.57
+  },
+  {
+    "id": 17,
+    "name": "Ko Kham Yai",
+    "latitude": 13.167,
+    "longitude": 100.824,
+    "price": 32.38
+  },
+  {
+    "id": 231,
+    "name": "Ko Lon",
+    "latitude": 7.786517,
+    "longitude": 98.371846,
+    "price": 29
+  },
+  {
+    "id": 234,
+    "name": "Ko Por",
+    "latitude": 7.536229,
+    "longitude": 99.127822,
+    "price": 42
+  },
+  {
+    "id": 236,
+    "name": "Ko Mak Noi",
+    "latitude": 8.2850616,
+    "longitude": 98.5903521,
+    "price": 31.5
+  }
+]
