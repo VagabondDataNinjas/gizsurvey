@@ -5,60 +5,42 @@
  */
 
 import {
-  SUBMIT_ANSWER,
-  SUBMIT_GPS,
-  SET_USER_ID,
-  LOAD_QUESTIONS,
-  SET_QUESTIONS_DATA,
-  LOAD_ISLANDS,
-  SET_ISLANDS_DATA,
+ LOAD_MAP,
+ ACCESS_DENIED,
+ SET_MAP_DATA,
+ SUBMIT_LOGIN,
+ ACCESS_GRANTED,
 } from './constants';
 
-export function submitAnswer(questionType, answer) {
+export function loadMap() {
   return {
-    type: SUBMIT_ANSWER,
-    questionType,
-    answer,
+    type: LOAD_MAP,
   };
 }
 
-export function submitGPS(gps) {
+export function setMapData(data) {
   return {
-    type: SUBMIT_GPS,
-    gps,
-  };
-}
-
-export function setQuestionsData(data) {
-  return {
-    type: SET_QUESTIONS_DATA,
+    type: SET_MAP_DATA,
     data,
   };
 }
 
-export function setIslandsData(data) {
+export function accessDenied() {
   return {
-    type: SET_ISLANDS_DATA,
-    data,
+    type: ACCESS_DENIED,
   };
 }
 
-export function setUserId(userId) {
+export function accessGranted() {
   return {
-    type: SET_USER_ID,
-    userId,
+    type: ACCESS_GRANTED,
   };
 }
 
-export function loadQuestions() {
+export function submitLogin(username, password) {
   return {
-    type: LOAD_QUESTIONS,
+    type: SUBMIT_LOGIN,
+    username,
+    password,
   };
 }
-
-export function loadIslands() {
-  return {
-    type: LOAD_ISLANDS,
-  };
-}
-

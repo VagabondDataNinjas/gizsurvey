@@ -1,15 +1,54 @@
-import { all } from 'redux-saga/effects';
-// import request from 'utils/request';
+import { takeEvery, all, put, call } from 'redux-saga/effects';
+import request from 'utils/request';
 import {
+  LOAD_MAP,
+  SUBMIT_LOGIN,
 } from './constants';
 import {
+  accessDenied,
+  accessGranted,
+  setMapData,
 } from './actions';
 import { } from './selectors';
 
 export default function* mainSaga() {
   yield all([
-    // takeEvery(LOAD_QUESTIONS, loadQuestions),
-
+    takeEvery(LOAD_MAP, loadMap),
+    takeEvery(SUBMIT_LOGIN, submitLogin),
   ]);
 }
 
+function* loadMap() {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  const response = yield call(request, '/api/admin/location-prices', {
+    method: 'GET',
+    headers,
+    credentials: 'include',
+  });
+  if (response.status !== 200) {
+    yield put(accessDenied());
+  } else {
+    yield put(setMapData(response.data));
+  }
+}
+
+function* submitLogin({ username, password }) {
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  const response = yield call(request, '/api/login', {
+    method: 'POST',
+    headers,
+    credentials: 'include',
+    body: JSON.stringify({
+      user: username,
+      pass: password,
+    }),
+  });
+
+  if (response.status !== 200) {
+    yield put(accessDenied());
+  } else {
+    yield put(accessGranted());
+  }
+}

@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import PropTypes from 'prop-types';
 import ReactMapboxGl, { Cluster, Marker, Popup, ScaleControl } from 'react-mapbox-gl';
-import {
-  Segment,
-} from 'semantic-ui-react';
-import markerData from './data.json';
+import { selectMapData } from '../selectors';
+import { loadMap } from '../actions';
 
 const ReactMap = ReactMapboxGl({
   accessToken: 'pk.eyJ1IjoiZ2l6LWdyb290cyIsImEiOiJjamFxdjdhemQ0YnFhMnFvaW56M3lrd3llIn0.ZOAFWU-zAj0Eu95ubcteEw'
@@ -22,16 +22,11 @@ class Map extends Component {
       center: [100.368145, 9.4578508],
       zoom: 5,
       popup: false,
-      items: [],
     };
   }
 
   componentWillMount() {
-    setTimeout(() => {
-      this.setState({
-        items: markerData,
-      });
-    }, 3000);
+    this.props.dispatch(loadMap());
   }
 
   onClusterMouseEnterHandler(coordinates, total, getLeaves) {
@@ -99,7 +94,7 @@ class Map extends Component {
           onMouseEnter={() => this.onClusterMouseEnterHandler(coordinates, pointCount, getLeaves)}
           onMouseLeave={() => this.onClusterMouseLeaveHandler(coordinates, pointCount, getLeaves)}
         >
-          <Mark borderSize={Math.min(pointCount, 4) - 1} size={45 + (Math.min(pointCount, 8) * 5)} color={percentageToHsl(getPriceInPercentage(avg), 0, 120)}>
+          <Mark borderSize={Math.min(pointCount, 4) - 1} size={45 + (Math.min(pointCount, 6) * 2)} color={percentageToHsl(getPriceInPercentage(avg), 0, 120)}>
             {avg.toFixed(1)}
           </Mark>
         </Marker>
@@ -108,9 +103,10 @@ class Map extends Component {
   }
 
   render() {
-    const { center, popup, zoom, items } = this.state;
+    const { mapData } = this.props;
+    const { center, popup, zoom } = this.state;
     return (
-      <Segment style={{ height: '100vh', width: '100vw', position: 'relative' }} className="center aligned">
+      <div style={{ height: '100vh', width: '100vw', position: 'relative' }} className="center aligned">
         <ReactMap
           style="mapbox://styles/mapbox/streets-v10"
           zoom={[zoom]}
@@ -118,7 +114,7 @@ class Map extends Component {
           onZoom={(e) => this.setState({ zoom: e.transform._zoom })}
         >
           <Cluster ClusterMarkerFactory={this.clusterMarker()}>
-            {items.map((item, i) => (
+            {mapData.map((item, i) => (
               <Marker
                 coordinates={[item.longitude, item.latitude]}
                 price={item.price}
@@ -128,7 +124,7 @@ class Map extends Component {
                 onMouseEnter={(e) => this.onMarkerMouseEnterHandler(item)}
                 onMouseLeave={() => this.onMarkerMouseLeaveHandler(item)}
               >
-                <Mark size={50} color={percentageToHsl(getPriceInPercentage(item.price), 0, 120)}>
+                <Mark size={45} color={percentageToHsl(getPriceInPercentage(item.price), 0, 120)}>
                   <span>{item.price.toFixed(1)}</span>
                 </Mark>
               </Marker>
@@ -149,16 +145,25 @@ class Map extends Component {
         )}
           <ScaleControl />
         </ReactMap>
-      </Segment>
-
+      </div>
     );
   }
 }
 
 Map.propTypes = {
+  mapData: PropTypes.array,
 };
 
-export default Map;
+const mapStateToProps = createSelector(
+  selectMapData(),
+  (mapData) => ({
+    mapData,
+  })
+);
+
+const withConnect = connect(mapStateToProps);
+
+export default withConnect(Map);
 
 function getPriceInPercentage(price) {
   const min = 20;
@@ -211,5 +216,5 @@ const StyledPopup = ({ children }) => (
 
 function percentageToHsl(percentage) {
   const hue = ((1 - percentage) * 120);
-  return ['hsla(', hue, ',120%,50%, 0.8)'].join('');
+  return ['hsla(', hue, ',160%,50%, 0.85)'].join('');
 }

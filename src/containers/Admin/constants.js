@@ -1,13 +1,11 @@
 /*
  *
- * Survey constants
+ * Admin constants
  *
  */
+export const SUBMIT_LOGIN = 'app/Admin/SUBMIT_LOGIN';
+export const ACCESS_GRANTED = 'app/Admin/ACCESS_GRANTED';
+export const ACCESS_DENIED = 'app/Admin/ACCESS_DENIED';
 
-export const SET_USER_ID = 'app/Survey/SET_USER_ID';
-export const SUBMIT_ANSWER = 'app/Survey/SUBMIT_ANSWER';
-export const SUBMIT_GPS = 'app/Survey/SUBMIT_GPS';
-export const LOAD_QUESTIONS = 'app/Survey/LOAD_QUESTIONS';
-export const SET_QUESTIONS_DATA = 'app/Survey/SET_QUESTIONS_DATA';
-export const LOAD_ISLANDS = 'app/Survey/LOAD_ISLANDS';
-export const SET_ISLANDS_DATA = 'app/Survey/SET_ISLANDS_DATA';
+export const LOAD_MAP = 'app/Admin/LOAD_MAP';
+export const SET_MAP_DATA = 'app/Admin/SET_MAP_DATA';

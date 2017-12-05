@@ -7,3 +7,7 @@ body {
 .mapboxgl-map {
   height: 100vh;
 }
+
+.ui.menu {
+  margin: 0;
+}
