@@ -19,36 +19,43 @@ export default function* mainSaga() {
 }
 
 function* loadMap() {
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  const response = yield call(request, '/api/admin/location-prices', {
-    method: 'GET',
-    headers,
-    credentials: 'include',
-  });
-  if (response.status !== 200) {
+  try {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const response = yield call(request, '/api/admin/location-prices', {
+      method: 'GET',
+      headers,
+      credentials: 'include',
+    });
+    if (response.status !== 200) {
+      yield put(accessDenied());
+    } else {
+      yield put(setMapData(response.data));
+    }
+  } catch (error) {
     yield put(accessDenied());
-  } else {
-    yield put(setMapData(response.data));
   }
 }
 
 function* submitLogin({ username, password }) {
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  const response = yield call(request, '/api/login', {
-    method: 'POST',
-    headers,
-    credentials: 'include',
-    body: JSON.stringify({
-      user: username,
-      pass: password,
-    }),
-  });
-
-  if (response.status !== 200) {
+  try {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const response = yield call(request, '/api/login', {
+      method: 'POST',
+      headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        user: username,
+        pass: password,
+      }),
+    });
+    if (response.status !== 200) {
+      yield put(accessDenied());
+    } else {
+      yield put(accessGranted());
+    }
+  } catch (error) {
     yield put(accessDenied());
-  } else {
-    yield put(accessGranted());
   }
 }
