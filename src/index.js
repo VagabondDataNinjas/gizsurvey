@@ -14,7 +14,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 
 import configureStore from './configureStore';
-import registerServiceWorker from './registerServiceWorker';
+// import registerServiceWorker from './registerServiceWorker';
 
 // Create redux store with history
 const initialState = {};
@@ -31,4 +31,4 @@ ReactDOM.render(
   MOUNT_NODE
 );
 
-registerServiceWorker();
+// registerServiceWorker();
