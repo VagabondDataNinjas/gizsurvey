@@ -42,7 +42,7 @@ class Admin extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.access && !this.nextProps.access) {
+    if (this.props.access && !nextProps.access) {
       nextProps.history.push('/admin/login');
     }
   }
