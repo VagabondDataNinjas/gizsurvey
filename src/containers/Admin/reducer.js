@@ -30,7 +30,7 @@ function adminReducer(state = initialState, action) {
         loading: false,
       });
     case SET_MAP_DATA:
-      return state.set('mapData', action.data);
+      return state.set('mapData', fromJS(action.data));
     case SUBMIT_LOGIN:
       return state.set('loading', true);
     default:
