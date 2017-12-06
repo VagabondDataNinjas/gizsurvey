@@ -27,11 +27,7 @@ function* loadMap() {
       headers,
       credentials: 'include',
     });
-    if (response.status !== '200') {
-      yield put(accessDenied());
-    } else {
-      yield put(setMapData(response.data));
-    }
+    yield put(setMapData(response));
   } catch (error) {
     yield put(accessDenied());
   }
@@ -41,7 +37,7 @@ function* submitLogin({ username, password }) {
   try {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    const response = yield call(request, '/api/login', {
+    yield call(request, '/api/login', {
       method: 'POST',
       headers,
       credentials: 'include',
@@ -50,11 +46,7 @@ function* submitLogin({ username, password }) {
         pass: password,
       }),
     });
-    if (response.status !== '200') {
-      yield put(accessDenied());
-    } else {
-      yield put(accessGranted());
-    }
+    yield put(accessGranted());
   } catch (error) {
     yield put(accessDenied());
   }
