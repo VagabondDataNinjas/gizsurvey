@@ -44,6 +44,8 @@ class Admin extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (!nextProps.access && nextProps.location.pathname !== '/admin/login') {
       nextProps.history.push('/admin/login');
+    } else if (!this.props.access && nextProps.access) {
+      nextProps.history.push('/admin/map');
     }
   }
 

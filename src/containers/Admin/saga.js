@@ -27,7 +27,7 @@ function* loadMap() {
       headers,
       credentials: 'include',
     });
-    if (response.status !== 200) {
+    if (response.status !== '200') {
       yield put(accessDenied());
     } else {
       yield put(setMapData(response.data));
@@ -50,7 +50,7 @@ function* submitLogin({ username, password }) {
         pass: password,
       }),
     });
-    if (response.status !== 200) {
+    if (response.status !== '200') {
       yield put(accessDenied());
     } else {
       yield put(accessGranted());
