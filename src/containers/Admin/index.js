@@ -40,7 +40,7 @@ class Admin extends React.PureComponent {
   componentWillMount() {
     const { history, access, location } = this.props;
     if (access && location.pathname === '/admin') {
-      history.push('/admin/login');
+      history.push('/admin/map');
     }
   }
 
