@@ -38,7 +38,10 @@ class Admin extends React.PureComponent {
   }
 
   componentWillMount() {
-    // const { location } = this.props;
+    const { history, access, location } = this.props;
+    if (access && location.pathname === '/admin') {
+      history.push('/admin/login');
+    }
   }
 
   componentWillReceiveProps(nextProps) {

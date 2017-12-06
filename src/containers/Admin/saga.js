@@ -3,6 +3,7 @@ import request from 'utils/request';
 import {
   LOAD_MAP,
   SUBMIT_LOGIN,
+  SEND_QUESTION,
 } from './constants';
 import {
   accessDenied,
@@ -15,6 +16,7 @@ export default function* mainSaga() {
   yield all([
     takeEvery(LOAD_MAP, loadMap),
     takeEvery(SUBMIT_LOGIN, submitLogin),
+    takeEvery(SEND_QUESTION, sendQuestion),
   ]);
 }
 
@@ -47,6 +49,25 @@ function* submitLogin({ username, password }) {
       }),
     });
     yield put(accessGranted());
+  } catch (error) {
+    yield put(accessDenied());
+  }
+}
+
+function* sendQuestion({ question, reply }) {
+  try {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    yield call(request, '/api/admin/send/custom/question', {
+      method: 'POST',
+      headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        question_id: 'price',
+        text: question,
+        reply_text: reply,
+      }),
+    });
   } catch (error) {
     yield put(accessDenied());
   }

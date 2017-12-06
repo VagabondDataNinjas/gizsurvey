@@ -10,6 +10,7 @@ import {
  SET_MAP_DATA,
  SUBMIT_LOGIN,
  ACCESS_GRANTED,
+ SEND_QUESTION,
 } from './constants';
 
 export function loadMap() {
@@ -42,5 +43,13 @@ export function submitLogin(username, password) {
     type: SUBMIT_LOGIN,
     username,
     password,
+  };
+}
+
+export function sendQuestion(question, reply) {
+  return {
+    type: SEND_QUESTION,
+    question,
+    reply,
   };
 }
