@@ -13,7 +13,7 @@ class Message extends Component {
       reply: '',
       confirm: false,
     };
-    this.onSubmit = () => { this.setState({ confirm: open }); };
+    this.onSubmit = () => { this.setState({ confirm: true }); };
     this.onCancel = () => { this.setState({ confirm: false }); };
     this.onConfirm = () => { this.props.dispatch(sendQuestion(this.state.question, this.state.reply)); this.setState({ question: '', reply: '', confirm: false }); };
   }
