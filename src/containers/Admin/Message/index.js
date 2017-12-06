@@ -24,18 +24,24 @@ class Message extends Component {
       <div style={{ margin: '20px auto', width: '600px', position: 'relative' }} className="center aligned">
         <Form>
           <Form.Field>
+            <label htmlFor="question">Message text</label>
             <TextArea
+              id="question"
               autoHeight
               placeholder="Question"
               onChange={({ currentTarget: { value } }) => this.setState({ question: value })}
             />
+            <p>{'available variables: {{.DisplayName}} {{.Location}}'}</p>
           </Form.Field>
           <Form.Field>
+            <label htmlFor="question">Reply text</label>
             <TextArea
+              id="reply"
               autoHeight
               placeholder="Reply"
               onChange={({ currentTarget: { value } }) => this.setState({ reply: value })}
             />
+            <p>{'available variables: {{.Location}} {{.PriceList}}'}</p>
           </Form.Field>
           <Button
             onClick={this.onSubmit}
