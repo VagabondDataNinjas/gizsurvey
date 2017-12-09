@@ -75,12 +75,6 @@ class Admin extends React.PureComponent {
             name="message"
             active={activeItem === 'message'}
           >
-            <a download="data.csv" href="/api/admin/download/data.csv">download data.csv</a>
-          </Menu.Item>
-          <Menu.Item
-            name="message"
-            active={activeItem === 'message'}
-          >
             <a download="line-events.csv" href="/api/admin/download/lineevents.csv">download line-events.csv</a>
           </Menu.Item>
         </Menu>
